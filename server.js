@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const PORTA = 9000; // port where the server are online
+const PORT = 9000; // port where the server are online
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -14,31 +14,35 @@ app.get('/', (req, res) => {
 
 app.post('/', (req, res) => {
 
+    if(!req.body.operation){
+        return res.status(400).send("No operation sended")
+    }
+
     var firstNumber = req.body.firstNumber
     var secondNumber = req.body.secondNumber
     var operacao = req.body.operation
-    var resultado
+    var result
 
     if( operacao === '+' ){
-        resultado = firstNumber + secondNumber
-        console.log(`Soma de ${firstNumber} por ${secondNumber} é ${resultado}`)
+        result = firstNumber + secondNumber
+        //console.log(`Soma de ${firstNumber} por ${secondNumber} é ${result}`)
     } else 
     if ( operacao === '/' ) {
-        resultado = firstNumber / secondNumber
-        console.log(`divisão de ${firstNumber} por ${secondNumber} é ${resultado}`)
+        result = firstNumber / secondNumber
+        //console.log(`divisão de ${firstNumber} por ${secondNumber} é ${result}`)
     } else 
     if ( operacao === '*' ) {
-        resultado = firstNumber * secondNumber
-        console.log(`multiplicação de ${firstNumber} por ${secondNumber} é ${resultado}`)
+        result = firstNumber * secondNumber
+        //console.log(`multiplicação de ${firstNumber} por ${secondNumber} é ${result}`)
     } else 
     if ( operacao === '-' ) {
-        resultado = firstNumber - secondNumber
-        console.log(`subtração de ${firstNumber} por ${secondNumber} é ${resultado}`)
+        result = firstNumber - secondNumber
+        //console.log(`subtração de ${firstNumber} por ${secondNumber} é ${result}`)
     }
 
-    return res.send(`{"resultado": ${resultado}}`);
+    return res.status(201).send(`{"result": ${result}}`);
 });
 
-app.listen(PORTA, () =>
-  console.log(`Example app listening on port ${PORTA}!`),
+app.listen(PORT, () =>
+  console.log(`Calculator are running on port ${PORT}!`),
 );
